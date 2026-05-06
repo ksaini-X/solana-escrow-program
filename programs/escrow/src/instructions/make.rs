@@ -1,7 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_2022::TransferChecked;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface, transfer_checked};
-use crate::escrow;
 use crate::state::Escrow;
 use crate::error::EscrowError;
 
@@ -51,10 +50,10 @@ pub struct Make<'info> {
 
 }
 
-pub fn handler(ctx: Context<Make>, amount:u64, receive:u64, expiry:i64) -> Result<()> {
+pub fn handler(ctx: Context<Make>, amount:u64, recieve:u64, expiry:i64) -> Result<()> {
 
     require!(ctx.accounts.maker.key() != ctx.accounts.taker.key(), EscrowError::SamePubkey);
-    require!(receive > 0, EscrowError::InvalidReceive);
+    require!(recieve > 0, EscrowError::InvalidReceive);
     require!(expiry > Clock::get()?.unix_timestamp, EscrowError::InvalidExpiryTime);
 
     transfer_checked(CpiContext::new(

@@ -10,4 +10,16 @@ pub enum EscrowError {
 
     #[msg("InvalidExpiryTime")]
     InvalidExpiryTime,
+
+    #[msg("InvalidMaker")]
+    InvalidMaker,
+
+    #[msg("InvalidTaker")]
+    InvalidTaker,
+
+    #[msg("InvalidRefundRequest")]
+    InvalidRefundRequest,
+
+    #[msg("EscrowExpired")]
+    EscrowExpired,
 }
