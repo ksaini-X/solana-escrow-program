@@ -50,7 +50,7 @@ pub struct Take<'info> {
     #[account(
         init_if_needed, 
         payer = taker, 
-        token::mint = token_mint_a, 
+        token::mint = token_mint_b, 
         token::authority = maker, 
         token::token_program = token_program
     )]
@@ -59,7 +59,7 @@ pub struct Take<'info> {
     #[account(
         mut, 
         token::mint = token_mint_a, 
-        token::authority = escrow, 
+        token::authority = taker, 
         token::token_program = token_program
     )]
     pub taker_token_mint_b_account : InterfaceAccount<'info, TokenAccount>, 
@@ -70,8 +70,8 @@ pub struct Take<'info> {
 
 }
 
-pub fn handler(ctx:Context<Take>)->Result<()>{
-    require!(ctx.accounts.escrow.expiry < Clock::get()?.unix_timestamp, EscrowError::EscrowExpired);
+pub fn take(ctx:Context<Take>)->Result<()>{
+    require!(ctx.accounts.escrow.expiry > Clock::get()?.unix_timestamp, EscrowError::EscrowExpired);
 
     transfer_checked(CpiContext::new_with_signer(
         *ctx.accounts.token_program.key, 
@@ -95,7 +95,7 @@ pub fn handler(ctx:Context<Take>)->Result<()>{
             *ctx.accounts.token_program.key, 
         TransferChecked{
             authority:ctx.accounts.taker.to_account_info(), 
-            from:ctx.accounts.maker_token_mint_b_account.to_account_info(), 
+            from:ctx.accounts.taker_token_mint_b_account.to_account_info(), 
             mint:ctx.accounts.token_mint_b.to_account_info(), 
             to:ctx.accounts.maker_token_mint_b_account.to_account_info()
         }), 

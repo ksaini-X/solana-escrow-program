@@ -50,7 +50,7 @@ pub struct Make<'info> {
 
 }
 
-pub fn handler(ctx: Context<Make>, amount:u64, recieve:u64, expiry:i64) -> Result<()> {
+pub fn make(ctx: Context<Make>, amount:u64, recieve:u64, expiry:i64) -> Result<()> {
 
     require!(ctx.accounts.maker.key() != ctx.accounts.taker.key(), EscrowError::SamePubkey);
     require!(recieve > 0, EscrowError::InvalidReceive);

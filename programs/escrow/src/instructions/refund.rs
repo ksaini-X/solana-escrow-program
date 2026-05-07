@@ -49,7 +49,7 @@ pub struct Refund<'info> {
 
 }
 
-pub fn handler(ctx:Context<Refund>)->Result<()>{
+pub fn refund(ctx:Context<Refund>)->Result<()>{
     require!(ctx.accounts.escrow.expiry > Clock::get()?.unix_timestamp, EscrowError::InvalidRefundRequest);
 
     transfer_checked(CpiContext::new_with_signer(
