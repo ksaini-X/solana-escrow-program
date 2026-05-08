@@ -45,13 +45,4 @@ await program.methods
   .rpc();
 ```
 
-## Account Architecture
 
-Escrow PDA  
-├── maker           → maker's public key
-├── mint_a          → token Alice offers
-├── mint_b          → token Alice wants
-├── receive_amount  → how much Token B Alice expects
-└── bump            → PDA bump
-Vault ATA   [seeds: b"vault", escrow.key]
-└── holds Token A during the swap (authority = escrow PDA)
