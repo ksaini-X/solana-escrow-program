@@ -35,12 +35,12 @@ await program.methods
   .rpc();
 ```
 
-### `cancel` — Refund the Maker
+### `refund` — Refund the Maker
 If no taker, Alice can cancel and get her Token A back.
 
 ```ts
 await program.methods
-  .cancel()
+  .refund()
   .accounts({ maker, mintA, makerAtaA, vault, escrow, ... })
   .rpc();
 ```
